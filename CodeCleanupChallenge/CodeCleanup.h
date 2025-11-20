@@ -28,8 +28,6 @@
 
 class CodeCleanup
 {
-	int* GetPointerNum(int num);
-
 public:
 	struct SwapPointers
 	{
