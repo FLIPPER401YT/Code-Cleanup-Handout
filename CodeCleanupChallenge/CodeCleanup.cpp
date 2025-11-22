@@ -14,7 +14,6 @@ std::string CodeCleanup::IntegerToBinary(int* num)
 
 	for (int bitIndex = 0; bitIndex < 32; bitIndex++)
 	{
-		// memory leak here
 		char* temp = new char[bitIndex + 2];
 		temp[bitIndex + 1] = '\0';
 		if (*num & (1 << bitIndex))
@@ -32,7 +31,6 @@ std::string CodeCleanup::IntegerToBinary(int* num)
 				temp[tempIndex] = result[tempIndex - 1];
 			}
 		}
-		// memory leak here
 		int length = (int)strlen(temp);
 		result = new char[length + 1];
 		for (int resultIndex = 0; resultIndex < length; resultIndex++)
@@ -49,16 +47,8 @@ std::string CodeCleanup::IntegerToBinary(int* num)
 #if COPY_STRING
 //Copies a string from a source to a destination
 void CodeCleanup::CopyString(const char* source, char*& destination) {
-	
-	// add delete[] destination to clear the memeory
-	
-	size_t len = strlen(source) + 1;
-	
-	// Copy the lenght of the string from the source into
-	//The destination to avoid over write
 
-	//Use strcpy_s instead of strcpy to avoid memory over write and 
-	//buffer overflow
+	size_t len = strlen(source) + 1;
 	
 	strcpy(destination, source);
 
@@ -73,7 +63,6 @@ std::string CodeCleanup::ConcatonateCharArray(char* arrOne, char* arrTwo)
 	result[0] = '\0';
 	for (int arrIndex = 0; arrIndex < strlen(arrOne); arrIndex++)
 	{
-		// memory leak here
 		char* temp = new char[strlen(result) + 2];
 		temp[strlen(result) + 1] = '\0';
 		temp[strlen(temp) - 1] = arrOne[arrIndex];
@@ -81,7 +70,6 @@ std::string CodeCleanup::ConcatonateCharArray(char* arrOne, char* arrTwo)
 		{
 			temp[tempIndex] = result[tempIndex];
 		}
-		// memory leak here
 		result = new char[strlen(temp) + 1];
 		result[strlen(temp)] = '\0';
 		for (int resultIndex = 0; resultIndex < strlen(result); resultIndex++)
@@ -91,7 +79,6 @@ std::string CodeCleanup::ConcatonateCharArray(char* arrOne, char* arrTwo)
 	}
 	for (int arrIndex = 0; arrIndex < strlen(arrTwo); arrIndex++)
 	{
-		// memory leak here
 		char* temp = new char[strlen(result) + 2];
 		temp[strlen(result) + 1] = '\0';
 		temp[strlen(temp) - 1] = arrTwo[arrIndex];
@@ -99,7 +86,6 @@ std::string CodeCleanup::ConcatonateCharArray(char* arrOne, char* arrTwo)
 		{
 			temp[tempIndex] = result[tempIndex];
 		}
-		// memory leak here
 		result = new char[strlen(temp) + 1];
 		result[strlen(temp)] = '\0';
 		for (int resultIndex = 0; resultIndex < strlen(result); resultIndex++)
@@ -124,14 +110,12 @@ int* CodeCleanup::RemoveElement(int* arr, int size, int index)
 		index++;
 	}
 
-	// memory leak here
 	int* temp = new int[size - 1];
 	for (int tempIndex = 0; tempIndex < size - 1; tempIndex++)
 	{
 		temp[tempIndex] = arr[tempIndex];
 	}
 
-	// memory leak here
 	arr = new int[size - 1];
 	for (int arrIndex = 0; arrIndex < size - 1; arrIndex++)
 	{
@@ -146,14 +130,12 @@ int* CodeCleanup::RemoveElement(int* arr, int size, int index)
 // Insterts value at arr[index]
 int* CodeCleanup::InsertElement(int* arr, int size, int index, int value)
 {
-	// memory leak here
 	int* temp = new int[size];
 	for (int tempIndex = 0; tempIndex < size; tempIndex++)
 	{
 		temp[tempIndex] = arr[tempIndex];
 	}
 
-	// memory leak here
 	arr = new int[size + 1];
 	if (index > size || index < 0) index = size;
 	for (int arrIndex = 0; arrIndex < size; arrIndex++)
@@ -187,12 +169,10 @@ int CodeCleanup::MultiplicationWithPtr(int numOne, int numTwo, int numThree, int
 	int* epsilon = &multOne;
 	int multTwo = *epsilon * *gamma;
 	int* zeta = &numFour;
-	// deleted data
 	delete delta;
 	delta = nullptr;
 	int* theta = &multTwo;
 	int* kappa = &numThree;
-	// deleted data
 	delete gamma;
 	gamma = nullptr;
 	int multThree = *theta * *kappa;
@@ -212,7 +192,6 @@ int* CodeCleanup::PushBack(int* arr, int size, int value)
 		temp[tempIndex] = arr[tempIndex];
 	}
 	
-	// memory leak here
 	arr = new int[size + 1];
 	for (int arrIndex = 0; arrIndex < size; arrIndex++)
 	{
@@ -220,7 +199,6 @@ int* CodeCleanup::PushBack(int* arr, int size, int value)
 	}
 	arr[size] = value;
 
-	// using free when used new to allocate
 	free(temp);
 
 	return arr;
@@ -237,7 +215,6 @@ int* CodeCleanup::PushFront(int* arr, size_t size, int value)
 		temp[tempIndex] = arr[tempIndex];
 	}
 
-	// memory leak here
 	arr = new int[size + 1];
 	for (int arrIndex = 1; arrIndex < size + 1; arrIndex++)
 	{
@@ -245,7 +222,6 @@ int* CodeCleanup::PushFront(int* arr, size_t size, int value)
 	}
 	arr[0] = value;
 
-	// using delete when used malloc() to allocate
 	delete[] temp;
 
 	return arr;
@@ -258,11 +234,9 @@ int* CodeCleanup::PushFront(int* arr, size_t size, int value)
 #if SUM_VEC
 int CodeCleanup::SumVec(std::vector<int> vec)
 {
-	// result is a vector
 	std::vector<int> result = { 0 };
 	for (int vecIndex = 0; vecIndex < vec.size(); vecIndex++)
 	{
-		// logic error with -= for sum
 		result -= vec[vecIndex];
 	}
 	int numResult = result[0];
@@ -274,7 +248,6 @@ int CodeCleanup::SumVec(std::vector<int> vec)
 //PtrA should PtrB and PtrB should be PtrA
 CodeCleanup::SwapPointers CodeCleanup::Swap(int* ptrA, int* ptrB)
 {
-	//All values hold memory addresses instead of int values
 	ptrB = ptrA;
 	ptrA = ptrB;
 
@@ -284,8 +257,6 @@ CodeCleanup::SwapPointers CodeCleanup::Swap(int* ptrA, int* ptrB)
 #endif
 
 #if REVERSE_ARRAY
-//User should copy the data from list into temp 
-//And reorder how they code data from temp back into the list
 int* CodeCleanup::ReversesArray(int* list, int size)
 {
 
@@ -303,7 +274,7 @@ int* CodeCleanup::ReversesArray(int* list, int size)
 #endif
 
 #if COMPARE_DATA
-//Gives the vector size. We should just hide this function in a header
+//Gives the vector size
 void CodeCleanup::writeData(std::vector<std::string>& vecData) {
 	vecData.resize(10);
 	for (int i = 0; i < 10; i++)
